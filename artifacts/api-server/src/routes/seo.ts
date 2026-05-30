@@ -31,13 +31,25 @@ router.post("/seo-pages", async (req, res): Promise<void> => {
     return;
   }
 
-  const [page] = await db.insert(seoPagesTable).values(parsed.data).returning();
-  res.status(201).json({
-    ...page,
-    faq: page.faq ?? null,
-    createdAt: page.createdAt?.toISOString() ?? null,
-    updatedAt: page.updatedAt?.toISOString() ?? null,
-  });
+  try {
+    const [page] = await db.insert(seoPagesTable).values(parsed.data).returning();
+    res.status(201).json({
+      ...page,
+      faq: page.faq ?? null,
+      createdAt: page.createdAt?.toISOString() ?? null,
+      updatedAt: page.updatedAt?.toISOString() ?? null,
+    });
+  } catch (err: unknown) {
+    const pg = err as { code?: string; detail?: string; message?: string };
+    if (pg.code === "23505") {
+      // Unique constraint violation
+      const detail = pg.detail ?? "";
+      const field = detail.includes("slug") ? "slug" : detail.includes("keyword") ? "keyword" : "field";
+      res.status(409).json({ error: `A page with this ${field} already exists. Please use a different value.` });
+      return;
+    }
+    res.status(500).json({ error: pg.message ?? "Database error while saving SEO page" });
+  }
 });
 
 router.get("/seo-pages/:slug", async (req, res): Promise<void> => {
@@ -78,23 +90,34 @@ router.patch("/seo-pages/:slug", async (req, res): Promise<void> => {
     return;
   }
 
-  const [page] = await db
-    .update(seoPagesTable)
-    .set(parsed.data)
-    .where(eq(seoPagesTable.slug, params.data.slug))
-    .returning();
+  try {
+    const [page] = await db
+      .update(seoPagesTable)
+      .set(parsed.data)
+      .where(eq(seoPagesTable.slug, params.data.slug))
+      .returning();
 
-  if (!page) {
-    res.status(404).json({ error: "SEO page not found" });
-    return;
+    if (!page) {
+      res.status(404).json({ error: "SEO page not found" });
+      return;
+    }
+
+    res.json({
+      ...page,
+      faq: page.faq ?? null,
+      createdAt: page.createdAt?.toISOString() ?? null,
+      updatedAt: page.updatedAt?.toISOString() ?? null,
+    });
+  } catch (err: unknown) {
+    const pg = err as { code?: string; detail?: string; message?: string };
+    if (pg.code === "23505") {
+      const detail = pg.detail ?? "";
+      const field = detail.includes("slug") ? "slug" : "field";
+      res.status(409).json({ error: `A page with this ${field} already exists.` });
+      return;
+    }
+    res.status(500).json({ error: pg.message ?? "Database error while updating SEO page" });
   }
-
-  res.json({
-    ...page,
-    faq: page.faq ?? null,
-    createdAt: page.createdAt?.toISOString() ?? null,
-    updatedAt: page.updatedAt?.toISOString() ?? null,
-  });
 });
 
 router.delete("/seo-pages/:slug", async (req, res): Promise<void> => {

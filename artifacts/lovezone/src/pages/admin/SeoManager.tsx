@@ -91,6 +91,15 @@ export default function SeoManager() {
     setIsModalOpen(true);
   };
 
+  const extractError = (error: unknown): string => {
+    if (error && typeof error === "object") {
+      const e = error as { data?: { error?: string }; message?: string };
+      if (e.data?.error) return e.data.error;
+      if (e.message) return e.message;
+    }
+    return "Failed to save SEO page. Please try again.";
+  };
+
   const onSubmit = async (values: z.infer<typeof seoPageSchema>) => {
     try {
       if (editingPage) {
@@ -106,7 +115,7 @@ export default function SeoManager() {
       queryClient.invalidateQueries({ queryKey: getListSeoPagesQueryKey() });
       setIsModalOpen(false);
     } catch (error) {
-      toast({ variant: "destructive", title: "Error", description: "Failed to save SEO Page" });
+      toast({ variant: "destructive", title: "Error", description: extractError(error) });
     }
   };
 
