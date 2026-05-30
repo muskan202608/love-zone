@@ -22,6 +22,10 @@ import type {
 import type {
   AdminCredentials,
   AdminSession,
+  BulkCityImport,
+  BulkImportCitiesCsvBody,
+  BulkImportResult,
+  BulkStateImport,
   City,
   CityInput,
   CityUpdate,
@@ -940,6 +944,219 @@ export const useDeleteState = <TError = ErrorType<unknown>,
         TContext
       > => {
       return useMutation(getDeleteStateMutationOptions(options));
+    }
+
+export const getBulkImportStatesUrl = () => {
+
+
+
+
+  return `/api/import/states`
+}
+
+/**
+ * @summary Bulk import states (admin)
+ */
+export const bulkImportStates = async (bulkStateImport: BulkStateImport, options?: RequestInit): Promise<BulkImportResult> => {
+
+  return customFetch<BulkImportResult>(getBulkImportStatesUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      bulkStateImport,)
+  }
+);}
+
+
+
+
+export const getBulkImportStatesMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportStates>>, TError,{data: BodyType<BulkStateImport>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof bulkImportStates>>, TError,{data: BodyType<BulkStateImport>}, TContext> => {
+
+const mutationKey = ['bulkImportStates'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bulkImportStates>>, {data: BodyType<BulkStateImport>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bulkImportStates(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BulkImportStatesMutationResult = NonNullable<Awaited<ReturnType<typeof bulkImportStates>>>
+    export type BulkImportStatesMutationBody = BodyType<BulkStateImport>
+    export type BulkImportStatesMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Bulk import states (admin)
+ */
+export const useBulkImportStates = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportStates>>, TError,{data: BodyType<BulkStateImport>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof bulkImportStates>>,
+        TError,
+        {data: BodyType<BulkStateImport>},
+        TContext
+      > => {
+      return useMutation(getBulkImportStatesMutationOptions(options));
+    }
+
+export const getBulkImportCitiesUrl = () => {
+
+
+
+
+  return `/api/import/cities`
+}
+
+/**
+ * @summary Bulk import cities (admin)
+ */
+export const bulkImportCities = async (bulkCityImport: BulkCityImport, options?: RequestInit): Promise<BulkImportResult> => {
+
+  return customFetch<BulkImportResult>(getBulkImportCitiesUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      bulkCityImport,)
+  }
+);}
+
+
+
+
+export const getBulkImportCitiesMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportCities>>, TError,{data: BodyType<BulkCityImport>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof bulkImportCities>>, TError,{data: BodyType<BulkCityImport>}, TContext> => {
+
+const mutationKey = ['bulkImportCities'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bulkImportCities>>, {data: BodyType<BulkCityImport>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bulkImportCities(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BulkImportCitiesMutationResult = NonNullable<Awaited<ReturnType<typeof bulkImportCities>>>
+    export type BulkImportCitiesMutationBody = BodyType<BulkCityImport>
+    export type BulkImportCitiesMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Bulk import cities (admin)
+ */
+export const useBulkImportCities = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportCities>>, TError,{data: BodyType<BulkCityImport>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof bulkImportCities>>,
+        TError,
+        {data: BodyType<BulkCityImport>},
+        TContext
+      > => {
+      return useMutation(getBulkImportCitiesMutationOptions(options));
+    }
+
+export const getBulkImportCitiesCsvUrl = () => {
+
+
+
+
+  return `/api/import/cities-csv`
+}
+
+/**
+ * @summary Bulk import cities via CSV text (admin)
+ */
+export const bulkImportCitiesCsv = async (bulkImportCitiesCsvBody: BulkImportCitiesCsvBody, options?: RequestInit): Promise<BulkImportResult> => {
+
+  return customFetch<BulkImportResult>(getBulkImportCitiesCsvUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      bulkImportCitiesCsvBody,)
+  }
+);}
+
+
+
+
+export const getBulkImportCitiesCsvMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportCitiesCsv>>, TError,{data: BodyType<BulkImportCitiesCsvBody>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof bulkImportCitiesCsv>>, TError,{data: BodyType<BulkImportCitiesCsvBody>}, TContext> => {
+
+const mutationKey = ['bulkImportCitiesCsv'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bulkImportCitiesCsv>>, {data: BodyType<BulkImportCitiesCsvBody>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bulkImportCitiesCsv(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BulkImportCitiesCsvMutationResult = NonNullable<Awaited<ReturnType<typeof bulkImportCitiesCsv>>>
+    export type BulkImportCitiesCsvMutationBody = BodyType<BulkImportCitiesCsvBody>
+    export type BulkImportCitiesCsvMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Bulk import cities via CSV text (admin)
+ */
+export const useBulkImportCitiesCsv = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bulkImportCitiesCsv>>, TError,{data: BodyType<BulkImportCitiesCsvBody>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof bulkImportCitiesCsv>>,
+        TError,
+        {data: BodyType<BulkImportCitiesCsvBody>},
+        TContext
+      > => {
+      return useMutation(getBulkImportCitiesCsvMutationOptions(options));
     }
 
 export const getListCitiesUrl = (params?: ListCitiesParams,) => {

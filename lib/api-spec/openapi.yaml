@@ -220,6 +220,69 @@ paths:
         "204":
           description: Deleted
 
+  # --- Import ---
+  /import/states:
+    post:
+      operationId: bulkImportStates
+      tags: [states]
+      summary: Bulk import states (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkStateImport"
+      responses:
+        "200":
+          description: Import result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkImportResult"
+
+  /import/cities:
+    post:
+      operationId: bulkImportCities
+      tags: [cities]
+      summary: Bulk import cities (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkCityImport"
+      responses:
+        "200":
+          description: Import result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkImportResult"
+
+  /import/cities-csv:
+    post:
+      operationId: bulkImportCitiesCsv
+      tags: [cities]
+      summary: Bulk import cities via CSV text (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [csv]
+              properties:
+                csv:
+                  type: string
+                  description: "CSV text with headers: state,city"
+      responses:
+        "200":
+          description: Import result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkImportResult"
+
   # --- Cities ---
   /cities:
     get:
@@ -231,6 +294,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search cities by name
       responses:
         "200":
           description: List of cities
@@ -816,6 +884,49 @@ components:
           type: integer
         limit:
           type: integer
+
+    BulkImportResult:
+      type: object
+      required: [inserted, skipped, errors]
+      properties:
+        inserted:
+          type: integer
+        skipped:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: string
+
+    BulkStateImport:
+      type: object
+      required: [states]
+      properties:
+        states:
+          type: array
+          items:
+            type: object
+            required: [name]
+            properties:
+              name:
+                type: string
+              slug:
+                type: string
+
+    BulkCityImport:
+      type: object
+      required: [cities]
+      properties:
+        cities:
+          type: array
+          items:
+            type: object
+            required: [state, city]
+            properties:
+              state:
+                type: string
+              city:
+                type: string
 
     SeoPage:
       type: object

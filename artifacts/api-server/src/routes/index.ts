@@ -8,6 +8,7 @@ import seoRouter from "./seo";
 import settingsRouter from "./settings";
 import dashboardRouter from "./dashboard";
 import sitemapRouter from "./sitemap";
+import importRouter from "./import";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(seoRouter);
 router.use(settingsRouter);
 router.use(dashboardRouter);
 router.use(sitemapRouter);
+router.use(importRouter);
 
 export default router;

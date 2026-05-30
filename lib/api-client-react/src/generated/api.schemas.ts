@@ -182,6 +182,30 @@ export interface ListingPage {
   limit: number;
 }
 
+export interface BulkImportResult {
+  inserted: number;
+  skipped: number;
+  errors: string[];
+}
+
+export type BulkStateImportStatesItem = {
+  name: string;
+  slug?: string;
+};
+
+export interface BulkStateImport {
+  states: BulkStateImportStatesItem[];
+}
+
+export type BulkCityImportCitiesItem = {
+  state: string;
+  city: string;
+};
+
+export interface BulkCityImport {
+  cities: BulkCityImportCitiesItem[];
+}
+
 export interface SeoPage {
   id: number;
   keyword: string;
@@ -221,8 +245,17 @@ export interface SeoPageUpdate {
   isActive?: boolean;
 }
 
+export type BulkImportCitiesCsvBody = {
+  /** CSV text with headers: state,city */
+  csv: string;
+};
+
 export type ListCitiesParams = {
 stateSlug?: string;
+/**
+ * Search cities by name
+ */
+search?: string;
 };
 
 export type ListListingsParams = {

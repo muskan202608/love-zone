@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,6 +32,14 @@ import ManageListings from "@/pages/admin/ManageListings";
 import SeoManager from "@/pages/admin/SeoManager";
 import Settings from "@/pages/admin/Settings";
 
+function Redirect({ to }: { to: string }) {
+  const [, setLocation] = useLocation();
+  useEffect(() => {
+    setLocation(to);
+  }, [to, setLocation]);
+  return null;
+}
+
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col">
@@ -53,26 +61,32 @@ const queryClient = new QueryClient({
   },
 });
 
+function AdminRouter() {
+  return (
+    <AdminLayout>
+      <Switch>
+        <Route path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
+        <Route path="/admin/dashboard" component={Dashboard} />
+        <Route path="/admin/states" component={ManageStates} />
+        <Route path="/admin/cities" component={ManageCities} />
+        <Route path="/admin/listings" component={ManageListings} />
+        <Route path="/admin/seo" component={SeoManager} />
+        <Route path="/admin/settings" component={Settings} />
+        <Route component={NotFound} />
+      </Switch>
+    </AdminLayout>
+  );
+}
+
 function Router() {
   return (
     <Switch>
       {/* Admin Login - No layout */}
       <Route path="/admin/login" component={Login} />
-      
-      {/* Admin routes with AdminLayout */}
-      <Route path="/admin/:path*">
-        <AdminLayout>
-          <Switch>
-            <Route path="/admin/dashboard" component={Dashboard} />
-            <Route path="/admin/states" component={ManageStates} />
-            <Route path="/admin/cities" component={ManageCities} />
-            <Route path="/admin/listings" component={ManageListings} />
-            <Route path="/admin/seo" component={SeoManager} />
-            <Route path="/admin/settings" component={Settings} />
-            <Route component={NotFound} />
-          </Switch>
-        </AdminLayout>
-      </Route>
+
+      {/* All /admin/* routes wrapped in AdminLayout */}
+      <Route path="/admin" component={AdminRouter} />
+      <Route path="/admin/:path+" component={AdminRouter} />
 
       {/* Public routes with Layout */}
       <Route>
@@ -88,8 +102,8 @@ function Router() {
             <Route path="/contact" component={Contact} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms" component={Terms} />
-            
-            {/* MUST BE LAST */}
+
+            {/* MUST BE LAST — SEO catch-all */}
             <Route path="/:seoSlug" component={SeoPageView} />
           </Switch>
         </Layout>

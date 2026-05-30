@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { citiesTable, listingsTable, statesTable } from "@workspace/db";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, ilike, and } from "drizzle-orm";
 import {
   CreateCityBody,
   UpdateCityBody,
@@ -16,12 +16,19 @@ const router = Router();
 router.get("/cities", async (req, res): Promise<void> => {
   const queryParams = ListCitiesQueryParams.safeParse(req.query);
 
+  const stateSlug = queryParams.success ? queryParams.data.stateSlug : undefined;
+  const search = queryParams.success ? queryParams.data.search : undefined;
+
+  const conditions = [];
+  if (stateSlug) conditions.push(eq(citiesTable.stateSlug, stateSlug));
+  if (search) conditions.push(ilike(citiesTable.name, `%${search}%`));
+
   let cities;
-  if (queryParams.success && queryParams.data.stateSlug) {
+  if (conditions.length > 0) {
     cities = await db
       .select()
       .from(citiesTable)
-      .where(eq(citiesTable.stateSlug, queryParams.data.stateSlug))
+      .where(conditions.length === 1 ? conditions[0] : and(...conditions))
       .orderBy(citiesTable.name);
   } else {
     cities = await db.select().from(citiesTable).orderBy(citiesTable.name);

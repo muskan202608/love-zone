@@ -168,10 +168,59 @@ export const DeleteStateParams = zod.object({
 
 
 /**
+ * @summary Bulk import states (admin)
+ */
+export const BulkImportStatesBody = zod.object({
+  "states": zod.array(zod.object({
+  "name": zod.string(),
+  "slug": zod.string().optional()
+}))
+})
+
+export const BulkImportStatesResponse = zod.object({
+  "inserted": zod.number(),
+  "skipped": zod.number(),
+  "errors": zod.array(zod.string())
+})
+
+
+/**
+ * @summary Bulk import cities (admin)
+ */
+export const BulkImportCitiesBody = zod.object({
+  "cities": zod.array(zod.object({
+  "state": zod.string(),
+  "city": zod.string()
+}))
+})
+
+export const BulkImportCitiesResponse = zod.object({
+  "inserted": zod.number(),
+  "skipped": zod.number(),
+  "errors": zod.array(zod.string())
+})
+
+
+/**
+ * @summary Bulk import cities via CSV text (admin)
+ */
+export const BulkImportCitiesCsvBody = zod.object({
+  "csv": zod.string().describe('CSV text with headers: state,city')
+})
+
+export const BulkImportCitiesCsvResponse = zod.object({
+  "inserted": zod.number(),
+  "skipped": zod.number(),
+  "errors": zod.array(zod.string())
+})
+
+
+/**
  * @summary List all cities
  */
 export const ListCitiesQueryParams = zod.object({
-  "stateSlug": zod.coerce.string().optional()
+  "stateSlug": zod.coerce.string().optional(),
+  "search": zod.coerce.string().optional().describe('Search cities by name')
 })
 
 export const ListCitiesResponseItem = zod.object({
