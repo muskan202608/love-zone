@@ -28,6 +28,7 @@ import type {
   BulkStateImport,
   City,
   CityInput,
+  CityListResponse,
   CityUpdate,
   DashboardStats,
   HealthStatus,
@@ -1177,9 +1178,9 @@ export const getListCitiesUrl = (params?: ListCitiesParams,) => {
 /**
  * @summary List all cities
  */
-export const listCities = async (params?: ListCitiesParams, options?: RequestInit): Promise<City[]> => {
+export const listCities = async (params?: ListCitiesParams, options?: RequestInit): Promise<CityListResponse> => {
 
-  return customFetch<City[]>(getListCitiesUrl(params),
+  return customFetch<CityListResponse>(getListCitiesUrl(params),
   {
     ...options,
     method: 'GET'

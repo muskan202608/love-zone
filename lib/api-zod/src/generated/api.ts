@@ -218,12 +218,21 @@ export const BulkImportCitiesCsvResponse = zod.object({
 /**
  * @summary List all cities
  */
+export const listCitiesQueryLimitMax = 500;
+
+export const listCitiesQueryOffsetMin = 0;
+
+
+
 export const ListCitiesQueryParams = zod.object({
   "stateSlug": zod.coerce.string().optional(),
-  "search": zod.coerce.string().optional().describe('Search cities by name')
+  "search": zod.coerce.string().optional().describe('Search cities by name'),
+  "limit": zod.coerce.number().min(1).max(listCitiesQueryLimitMax).optional().describe('Max results to return (default 100)'),
+  "offset": zod.coerce.number().min(listCitiesQueryOffsetMin).optional().describe('Offset for pagination (default 0)')
 })
 
-export const ListCitiesResponseItem = zod.object({
+export const ListCitiesResponse = zod.object({
+  "data": zod.array(zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "slug": zod.string(),
@@ -234,8 +243,11 @@ export const ListCitiesResponseItem = zod.object({
   "metaDescription": zod.string().nullish(),
   "listingCount": zod.number(),
   "createdAt": zod.string().nullish()
+})),
+  "total": zod.number().describe('Total number of matching cities'),
+  "limit": zod.number(),
+  "offset": zod.number()
 })
-export const ListCitiesResponse = zod.array(ListCitiesResponseItem)
 
 
 /**

@@ -93,6 +93,14 @@ export interface City {
   createdAt?: string | null;
 }
 
+export interface CityListResponse {
+  data: City[];
+  /** Total number of matching cities */
+  total: number;
+  limit: number;
+  offset: number;
+}
+
 export interface CityInput {
   name: string;
   slug: string;
@@ -256,6 +264,17 @@ stateSlug?: string;
  * Search cities by name
  */
 search?: string;
+/**
+ * Max results to return (default 100)
+ * @minimum 1
+ * @maximum 500
+ */
+limit?: number;
+/**
+ * Offset for pagination (default 0)
+ * @minimum 0
+ */
+offset?: number;
 };
 
 export type ListListingsParams = {

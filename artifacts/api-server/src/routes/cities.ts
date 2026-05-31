@@ -18,21 +18,27 @@ router.get("/cities", async (req, res): Promise<void> => {
 
   const stateSlug = queryParams.success ? queryParams.data.stateSlug : undefined;
   const search = queryParams.success ? queryParams.data.search : undefined;
+  const limit = Math.min(Number(req.query.limit) || 100, 500);
+  const offset = Math.max(Number(req.query.offset) || 0, 0);
 
   const conditions = [];
   if (stateSlug) conditions.push(eq(citiesTable.stateSlug, stateSlug));
   if (search) conditions.push(ilike(citiesTable.name, `%${search}%`));
 
-  let cities;
-  if (conditions.length > 0) {
-    cities = await db
-      .select()
-      .from(citiesTable)
-      .where(conditions.length === 1 ? conditions[0] : and(...conditions))
-      .orderBy(citiesTable.name);
-  } else {
-    cities = await db.select().from(citiesTable).orderBy(citiesTable.name);
-  }
+  const whereClause = conditions.length === 1 ? conditions[0] : conditions.length > 1 ? and(...conditions) : undefined;
+
+  const [totalRow] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(citiesTable)
+    .where(whereClause);
+
+  const cities = await db
+    .select()
+    .from(citiesTable)
+    .where(whereClause)
+    .orderBy(citiesTable.name)
+    .limit(limit)
+    .offset(offset);
 
   const counts = await db
     .select({ citySlug: listingsTable.citySlug, count: sql<number>`count(*)::int` })
@@ -42,7 +48,7 @@ router.get("/cities", async (req, res): Promise<void> => {
 
   const countMap = new Map(counts.map((c) => [c.citySlug, c.count]));
 
-  const result = cities.map((c) => ({
+  const data = cities.map((c) => ({
     ...c,
     listingCount: countMap.get(c.slug) ?? 0,
     description: c.description ?? null,
@@ -51,7 +57,7 @@ router.get("/cities", async (req, res): Promise<void> => {
     createdAt: c.createdAt?.toISOString() ?? null,
   }));
 
-  res.json(result);
+  res.json({ data, total: totalRow?.count ?? 0, limit, offset });
 });
 
 router.post("/cities", async (req, res): Promise<void> => {
