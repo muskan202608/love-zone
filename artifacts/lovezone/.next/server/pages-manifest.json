@@ -3,7 +3,7 @@
   "/_error": "pages/_error.js",
   "/[state]": "pages/[state].js",
   "/seo/[state]": "pages/seo/[state].js",
-  "/sitemap.xml": "pages/sitemap.xml.js",
   "/_document": "pages/_document.js",
+  "/sitemap.xml": "pages/sitemap.xml.js",
   "/404": "pages/404.html"
 }

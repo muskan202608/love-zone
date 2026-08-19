@@ -4,12 +4,12 @@
   "/login/page": "/login",
   "/signup/page": "/signup",
   "/admin/page": "/admin",
-  "/api/admin/certificate/route": "/api/admin/certificate",
   "/api/auth/login/route": "/api/auth/login",
+  "/api/admin/certificate/route": "/api/admin/certificate",
   "/api/admin/route": "/api/admin",
-  "/api/auth/signup/route": "/api/auth/signup",
   "/api/files/[...path]/route": "/api/files/[...path]",
-  "/page": "/",
+  "/api/auth/signup/route": "/api/auth/signup",
   "/member/page": "/member",
+  "/page": "/",
   "/verify/[employeeId]/page": "/verify/[employeeId]"
 }
