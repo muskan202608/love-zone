@@ -19,6 +19,7 @@ if (Number.isNaN(port) || port <= 0) {
 }
 
 const basePath = process.env.BASE_PATH;
+const apiUrl = process.env.API_URL ?? "http://localhost:8080";
 
 if (!basePath) {
   throw new Error(
@@ -63,6 +64,12 @@ export default defineConfig({
     strictPort: true,
     host: "0.0.0.0",
     allowedHosts: true,
+    proxy: {
+      "/api": {
+        target: apiUrl,
+        changeOrigin: true,
+      },
+    },
     fs: {
       strict: true,
     },

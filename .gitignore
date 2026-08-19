@@ -10,6 +10,7 @@ out-tsc
 
 # dependencies
 node_modules
+artifacts/lovezone/.npm-cache/
 
 # IDEs and editors
 /.idea
@@ -47,3 +48,10 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Persistent application data (keep the folder structure, not member data)
+artifacts/lovezone/storage/*
+!artifacts/lovezone/storage/.gitkeep
+!artifacts/lovezone/storage/profiles/.gitkeep
+!artifacts/lovezone/storage/certificates/.gitkeep
+!artifacts/lovezone/storage/qrcodes/.gitkeep
