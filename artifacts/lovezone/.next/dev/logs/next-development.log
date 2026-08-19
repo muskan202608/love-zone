@@ -1,0 +1,12 @@
+{"timestamp":"00:00:04.360","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:04.361","source":"Server","level":"LOG","message":"  We detected TypeScript in your project and reconfigured your tsconfig.json file for you."}
+{"timestamp":"00:00:04.361","source":"Server","level":"LOG","message":"  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:\n"}
+{"timestamp":"00:00:04.362","source":"Server","level":"LOG","message":"  \t- include was updated to add '.next/types/**/*.ts'"}
+{"timestamp":"00:00:04.362","source":"Server","level":"LOG","message":"  \t- include was updated to add '.next/dev/types/**/*.ts'"}
+{"timestamp":"00:00:04.362","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:04.838","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:08.072","source":"Server","level":"LOG","message":"○ Compiling / ..."}
+{"timestamp":"00:00:34.879","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:34.993","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:55.464","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:21:29.315","source":"Server","level":"ERROR","message":"⨯ ./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[3]!./app/globals.css\nLoaderRunnerError: Module 'C:\\Users\\pc\\Downloads\\LoveZone-Directory\\artifacts\\lovezone\\node_modules\\next\\dist\\build\\webpack\\loaders\\css-loader\\src\\index.js' is not a loader (must have normal or pitch function)\nImport trace for requested module:\n./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[15].oneOf[10].use[3]!./app/globals.css\n./app/globals.css"}

@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/login/page": "/login",
+  "/signup/page": "/signup",
+  "/admin/page": "/admin",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/admin/certificate/route": "/api/admin/certificate",
+  "/api/admin/route": "/api/admin",
+  "/api/files/[...path]/route": "/api/files/[...path]",
+  "/api/auth/signup/route": "/api/auth/signup",
+  "/member/page": "/member",
+  "/page": "/",
+  "/verify/[employeeId]/page": "/verify/[employeeId]"
+}
